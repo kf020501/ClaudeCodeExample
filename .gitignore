@@ -1,0 +1,19 @@
+# 一時ファイルやログファイルを無視する設定
+/tmp/
+/logs/
+*.log
+*.tmp
+*.swp
+
+# OSやエディタ固有のファイルを無視
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ビルド結果の無視
+/bin/
+
+# 生成AIの出力ファイルを無視
+.claude/
+CLAUDE.md
