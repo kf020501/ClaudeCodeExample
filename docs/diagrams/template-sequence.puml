@@ -1,0 +1,63 @@
+@startuml
+' ========================================
+' 図のタイトル: シーケンス図テンプレート
+' 目的: プロジェクトのシーケンス図作成用テンプレート
+' ========================================
+
+!theme plain
+title API処理シーケンス
+
+
+' 参加者の定義
+actor "ユーザー" as user
+participant "フロントエンド" as frontend
+participant "APIサーバー" as api
+participant "認証サーバー" as auth
+database "データベース" as db
+
+' シーケンスの開始
+activate user
+
+' ログイン処理
+user -> frontend : ログイン要求
+activate frontend
+
+frontend -> auth : 認証要求
+activate auth
+auth -> auth : 認証情報検証
+auth --> frontend : JWTトークン
+deactivate auth
+
+' データ取得処理  
+frontend -> api : データ要求\n(Bearer token)
+activate api
+
+api -> auth : トークン検証
+activate auth
+auth --> api : 検証結果
+deactivate auth
+
+alt トークン有効
+    api -> db : データクエリ
+    activate db
+    db --> api : データ応答
+    deactivate db
+    
+    api --> frontend : データ応答
+else トークン無効
+    api --> frontend : 401 Unauthorized
+end
+
+deactivate api
+
+frontend --> user : 結果表示
+deactivate frontend
+deactivate user
+
+' ノート（説明）
+note over user, db
+  このシーケンスは基本的なAPI処理フローを示す
+  認証→データ取得→応答の流れを表現
+end note
+
+@enduml

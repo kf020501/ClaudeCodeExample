@@ -1,0 +1,54 @@
+@startuml
+' ========================================
+' 図のタイトル: システム構成図テンプレート
+' 目的: プロジェクトのシステム構成図作成用テンプレート
+' ========================================
+
+!theme plain
+title システム構成図
+
+
+' アクターの定義
+actor "ユーザー" as user
+participant "Webアプリ" as web
+participant "APIサーバー" as api
+database "データベース" as db
+queue "メッセージキュー" as mq
+
+' システム境界の定義
+box "フロントエンド" #LightBlue
+    participant web
+end box
+
+box "バックエンド" #LightGreen  
+    participant api
+    participant mq
+end box
+
+box "データ層" #LightYellow
+    database db
+end box
+
+' 基本的な接続関係
+user --> web : HTTP/HTTPS
+web --> api : REST API
+api --> db : SQL
+api --> mq : メッセージ送信
+
+' ノート（説明）
+note right of web
+  React/Vue.js等の
+  フロントエンドフレームワーク
+end note
+
+note right of api
+  Node.js/Python/Java等の
+  APIサーバー
+end note
+
+note right of db
+  PostgreSQL/MySQL等の
+  リレーショナルDB
+end note
+
+@enduml
