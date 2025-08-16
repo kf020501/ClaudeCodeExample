@@ -5,8 +5,10 @@ VERSION := $(shell git describe --tags --always --dirty 2>/dev/null || echo "dev
 
 .PHONY: help
 help: ## このヘルプを表示
-	@grep -E '^[a-zA-Z0-9_.-]+:.*## ' $(MAKEFILE_LIST) \
-	| awk 'BEGIN {FS=":.*## "}; {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
+	@awk 'BEGIN {FS = ":.*## "}; /^##/ { printf "\n\033[33m%s\033[0m\n", substr($$0, 4) } \
+		/^[a-zA-Z_-]+:.*##/ { printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
+
+## セットアップ関連
 
 .PHONY: setup
 setup: ## プロジェクトディレクトリの作成
@@ -19,13 +21,14 @@ setup-claudecode: ## ClaudeCodeとツールのセットアップ
 .PHONY: setup-diagrams
 setup-diagrams: ## plantumlのセットアップ
 	docker build -f container/plantuml/Dockerfile -t plantuml:latest .
+	mkdir -p ~/.local/bin
+	cp scripts/plantuml ~/.local/bin/plantuml
+	chmod +x ~/.local/bin/plantuml
 
 .PHONY: setup-all
 setup-all: setup setup-claudecode setup-diagrams ## 全てのセットアップを実行
 
-.PHONY: diagrams
-diagrams: ## PlantUMLで全ての図を生成
-	docker run --rm -v "$$(pwd):/work" plantuml -tsvg "docs/diagrams/*.puml"
+## その他
 
 .PHONY: clean
 clean: ## 一時ファイルとログを削除

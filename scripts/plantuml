@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# PlantUML Docker wrapper script
+# Usage: plantuml [options] file.puml
+
+if [ $# -eq 0 ]; then
+    echo "Usage: plantuml [options] file.puml"
+    echo "Example: plantuml -tsvg docs/diagrams/system.puml"
+    exit 1
+fi
+
+# Default to SVG output if no format specified
+if [[ ! "$*" =~ -t ]]; then
+    docker run --rm -v "$(pwd):/work" plantuml -tsvg "$@"
+else
+    docker run --rm -v "$(pwd):/work" plantuml "$@"
+fi

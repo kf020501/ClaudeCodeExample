@@ -102,14 +102,11 @@ help: ## このヘルプを表示
 ### 図の生成方法
 
 ```bash
-# 特定のファイルを生成
-docker run --rm -v "$(pwd):/work" plantuml -tsvg docs/diagrams/your-diagram.puml
+# 特定のファイルをSVG変換
+plantuml docs/diagrams/target.puml
 
-# ディレクトリ内の全.pumlファイルを生成
-docker run --rm -v "$(pwd):/work" plantuml -tsvg "docs/diagrams/*.puml"
-
-# PlantUMLのヘルプを表示
-docker run --rm plantuml -help
+# 全.pumlファイルを一括変換
+plantuml "docs/diagrams/*.puml"
 ```
 
 - `.puml`ファイルと同じ場所に`.svg`ファイルが生成される

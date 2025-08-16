@@ -119,21 +119,26 @@ PlantUML図生成機能
 
 このプロジェクトでは、AIが作成したPlantUML図をDocker経由でSVG形式に変換する機能を提供します。
 
-### 図生成コマンド
+### plantumlコマンドのインストール
 
-| コマンド                                                                              | 説明                                  |
-| ------------------------------------------------------------------------------------- | ------------------------------------- |
-| `make diagrams`                                                                       | 全.pumlファイルを一括変換             |
-| `docker run --rm -v "$(pwd):/work" plantuml -tsvg docs/diagrams/filename.puml` | 特定ファイルをSVG変換                 |
-| `docker run --rm -v "$(pwd):/work" plantuml -tsvg "docs/diagrams/*.puml"`      | 全.pumlファイルを一括変換（直接実行） |
+`make setup-diagrams`または`make setup-all`実行時に、`plantuml`コマンドが`~/.local/bin/`にインストールされます。これにより、以下の簡単な使い方が可能になります：
+
+```bash
+# 特定のファイルをSVG変換（デフォルト）
+plantuml docs/diagrams/target.puml
+
+# 全.pumlファイルを一括変換
+plantuml "docs/diagrams/*.puml"
+
+# PNG形式で変換
+plantuml -tpng docs/diagrams/target.puml
+```
 
 ### 図の作成方法
 
 - **配置場所**: `docs/diagrams/`ディレクトリに.pumlファイルを作成
 - **命名規則**: `{目的}-{種類}.puml` （例: `system-overview.puml`）
 - **テンプレート**: `template-*.puml`ファイルを参考に作成可能
-- **変換実行**: 上記dockerコマンドで.svgファイルが同じ場所に生成される
-- **テンプレート除外**: `template-`で始まるファイルは一括変換から自動除外
 
 ### AIによる図作成の指示例
 
