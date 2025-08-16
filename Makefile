@@ -12,7 +12,7 @@ help: ## このヘルプを表示
 
 .PHONY: setup
 setup: ## プロジェクトディレクトリの作成
-	mkdir -p bin src docs tests config scripts logs tmp
+	mkdir -p docs tests scripts tmp
 
 .PHONY: setup-claudecode
 setup-claudecode: ## ClaudeCodeとツールのセットアップ
