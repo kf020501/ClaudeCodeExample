@@ -4,6 +4,16 @@
 
 echo "Setting up curl, Node.js, ClaudeCode and tools..."
 
+# PATHの追加(claudeの実行ファイルがここに生成される)
+DIR="$HOME/.local/bin"
+if ! grep -q "export PATH.*$DIR" "$HOME/.bashrc" 2>/dev/null; then
+    echo "export PATH=\"\$PATH:$DIR\"" >> "$HOME/.bashrc"
+    echo "追加しました: $DIR"
+    export PATH="$PATH:$DIR"
+else
+    echo "すでに.bashrcに含まれています: $DIR"
+fi
+
 # curl のインストール
 if command -v curl >/dev/null 2>&1; then
     echo "curl is already installed"
@@ -58,3 +68,8 @@ else
 fi
 
 echo "Setup completed successfully!"
+echo ""
+echo "注意: PATHを現在のセッションに反映するには以下のいずれかを実行してください:"
+echo "  source ~/.bashrc"
+echo "  exec bash"
+echo "  または新しいターミナルを開いてください"
